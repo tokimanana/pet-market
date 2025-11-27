@@ -82,6 +82,9 @@
       }
     }
   },
+  "prisma": {
+    "seed": "npx ts-node ./prisma/seed.ts"
+  },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
@@ -91,6 +94,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@nestjs/testing": "^11.0.0"
+    "@nestjs/testing": "^11.0.0",
+    "tsx": "^4.20.6"
   }
 }
