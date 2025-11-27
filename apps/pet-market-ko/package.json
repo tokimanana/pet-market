@@ -83,7 +83,7 @@
     }
   },
   "prisma": {
-    "seed": "npx ts-node ./prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
