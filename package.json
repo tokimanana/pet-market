@@ -2,7 +2,9 @@
   "name": "@pet-market/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.8.0",
@@ -16,7 +18,7 @@
     "@nx/node": "22.1.2",
     "@nx/web": "22.1.2",
     "@nx/webpack": "22.1.2",
-    "@prisma/client": "^6.19.0",
+    "@prisma/client": "6.19.0",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
@@ -30,7 +32,7 @@
     "jest-util": "^30.0.2",
     "nx": "22.1.2",
     "prettier": "^2.6.2",
-    "prisma": "^6.19.0",
+    "prisma": "6.19.0",
     "ts-jest": "^29.4.0",
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
