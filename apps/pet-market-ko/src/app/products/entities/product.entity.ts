@@ -8,19 +8,19 @@ export class Product {
   @Field()
   name!: string;
 
-  @Field({ nullable: true })  // ← Ajouté
-  description?: string;
+  @Field()
+  description!: string;
 
   @Field(() => Float)
   price!: number;
 
-  @Field({ nullable: true })  // ← Ajouté
-  image?: string;
+  @Field()
+  image!: string;
 
-  @Field({ nullable: true })  // ← Ajouté
+  @Field()
   stripePriceId?: string;
 
-  @Field(() => Boolean, { nullable: true })  // ← Ajouté nullable
+  @Field()
   isFeatured?: boolean;
 
   @Field()

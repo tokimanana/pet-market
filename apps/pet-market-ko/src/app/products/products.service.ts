@@ -12,11 +12,25 @@ export class ProductsService {
   }
 
   findAll() {
-    return this.prisma.product.findMany();;
+    return this.prisma.product.findMany();
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} product`;
+    return this.prisma.product.findFirst({
+      where: { id },
+    });
+  }
+
+  async searchProducts(term: string) {
+    const lowercaseTerm = term.toLowerCase();
+    return this.prisma.product.findMany({
+      where: {
+        OR: [
+          { name: { contains: lowercaseTerm, mode: 'insensitive' } },
+          { description: { contains: lowercaseTerm, mode: 'insensitive' } },
+        ],
+      },
+    });
   }
 
   update(id: string, updateProductInput: UpdateProductInput) {
