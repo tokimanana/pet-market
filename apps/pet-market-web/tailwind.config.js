@@ -14,6 +14,15 @@ module.exports = {
     require('daisyui')
   ],
   daisyui: {
-    themes: ["synthwave"],
+    themes: [
+      {
+        retroCustom: {
+          ...require("daisyui/src/theming/themes")["retro"],
+          "primary": "#8b7355",
+          "primary-content": "#1f2937",
+        },
+      },
+      "luxury"
+    ],
   },
 };
