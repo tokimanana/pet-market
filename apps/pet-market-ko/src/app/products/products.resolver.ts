@@ -25,7 +25,7 @@ export class ProductsResolver {
     return this.productsService.findOne(id);
   }
 
-  @Query(() => Product, { name: 'searchProducts' })
+  @Query(() => [Product], { name: 'searchProducts' })
   searchProducts(@Args('term', { type: () => String }) term: string) {
     return this.productsService.searchProducts(term);
   }
