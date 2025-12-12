@@ -5,8 +5,8 @@
   "scripts": {
     "seed": "tsx prisma/seed.ts",
     "build": "nx build pet-market-ko --configuration=production",
-    "start": "node dist/apps/pet-market-ko/main.js",
-    "start:prod": "node dist/apps/pet-market-ko/main.js",
+    "start": "node apps/pet-market-ko/main.js",
+    "start:prod": "node apps/pet-market-ko/main.js",
     "prisma:generate": "prisma generate",
     "prisma:deploy": "prisma migrate deploy"
   },
