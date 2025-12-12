@@ -1,4 +1,12 @@
 <p>products works!</p>
-<pre>
-  {{ productStore | json }}
-</pre>
+@if (productStore.loading()) {
+  <div>Loading...</div>
+} @else if (productStore.error()) {
+  <div>Error: {{ productStore.error() }}</div>
+} @else {
+  <ul>
+    @for (product of productStore.products(); track product.id) {
+      <li>{{ product.name }} - {{ product.price | currency }}</li>
+    }
+  </ul>
+}
