@@ -1,10 +1,11 @@
 import { afterNextRender, Component, inject } from '@angular/core';
 import { ProductStore } from '../stores/product';
-import { JsonPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { ProductCard } from "../components/product-card/product-card";
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, JsonPipe],
+  imports: [CommonModule, ProductCard],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })

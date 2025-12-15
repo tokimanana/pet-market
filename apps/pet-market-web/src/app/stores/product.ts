@@ -2,16 +2,7 @@ import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs';
-
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  stripePriceId: string;
-  isFeatured?: boolean;
-}
+import { Product } from '@prisma/client'
 
 const GET_PRODUCTS = gql`
   query GetProducts {
