@@ -11,6 +11,8 @@ import { ProductsModule } from './products/products.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'apps/pet-market-ko/dist/schema.gql'),
+      playground: true,      // Active le playground en production
+      introspection: true,   // Permet l'introspection du schéma
     }),
     ProductsModule,
   ],
