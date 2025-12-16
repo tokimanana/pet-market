@@ -1,6 +1,10 @@
 <div class="container mx-auto px-4">
   <div class="mb-4">
-    <!-- search input -->
+    <input type="text" placeholder="Search Product..."
+      class="input input-bordered w-full max-w-xs" 
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearch(searchTerm)"
+      />
   </div>
 
   @if(productStore.loading()) {

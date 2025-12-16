@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { Apollo, gql } from 'apollo-angular';
-import { map } from 'rxjs';
-import { Product } from '@prisma/client'
+import { catchError, EMPTY, map } from 'rxjs';
+import { Product } from '@prisma/client';
 
 const GET_PRODUCTS = gql`
   query GetProducts {
@@ -14,6 +14,19 @@ const GET_PRODUCTS = gql`
       image
       stripePriceId
       isFeatured
+    }
+  }
+`;
+
+const SEARCH_PRODUCTS = gql`
+  query SearchProducts($searchTerm: String!) {
+    searchProducts(term: $searchTerm) {
+      id
+      name
+      description
+      price
+      image
+      stripePriceId
     }
   }
 `;
@@ -65,6 +78,29 @@ export const ProductStore = signalStore(
             });
           }
         });
+    },
+
+    searchProducts(term: string) {
+      patchState(store, { loading: true, error: null });
+      
+      apollo
+        .query<{ searchProducts: Product[] }>({
+          query: SEARCH_PRODUCTS,
+          variables: { searchTerm: term }
+        })
+        .pipe(
+          map(({ data }) => 
+            patchState(store, { products: data?.searchProducts, loading: false })
+          ),
+          catchError((error) => {
+            patchState(store, { 
+              error: error.message, 
+              loading: false 
+            });
+            return EMPTY;
+          }
+        ))
+        .subscribe();
     },
     
     loadFeaturedProducts() {
