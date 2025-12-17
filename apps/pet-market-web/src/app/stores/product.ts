@@ -49,7 +49,7 @@ export const ProductStore = signalStore(
   {
     providedIn: 'root',
   },
-  withState(initialState),
+  withState(() => initialState),
   withMethods((store, apollo = inject(Apollo)) => ({
     loadProducts() {
       patchState(store, { loading: true, error: null });
