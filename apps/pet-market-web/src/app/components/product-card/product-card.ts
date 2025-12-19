@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Product } from '@prisma/client'
 
 @Component({
@@ -9,4 +9,10 @@ import { Product } from '@prisma/client'
 })
 export class ProductCard {
   product = input.required<Product>();
+  addToCart = output<Product>();
+
+  onAddToCart(product: Product) {
+    this.addToCart.emit(product);
+    console.log('Add to cart clicked for product:', product);
+  }
 }
