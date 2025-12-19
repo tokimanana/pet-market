@@ -13,6 +13,5 @@ export class ProductCard {
 
   onAddToCart(product: Product) {
     this.addToCart.emit(product);
-    console.log('Add to cart clicked for product:', product);
   }
 }
