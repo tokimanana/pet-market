@@ -5,6 +5,21 @@
   "prefix": "app",
   "sourceRoot": "apps/pet-market-web/src",
   "tags": [],
+  "generators": {
+    "@nx/angular:component": {
+      "style": "scss",
+      "legacyNaming": true
+    },
+    "@nx/angular:directive": {
+      "legacyNaming": true
+    },
+    "@nx/angular:pipe": {
+      "legacyNaming": true
+    },
+    "@nx/angular:service": {
+      "legacyNaming": true
+    }
+  },
   "targets": {
     "build": {
       "executor": "@angular/build:application",
