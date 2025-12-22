@@ -76,6 +76,9 @@ export const CartStore = signalStore(
         .items()
         .filter((item) => item.id !== productId);
       patchState(store, { items: updatedItems });
+    },
+    clearCart() {
+      patchState(store, { items: [] });
     }
   }))
 );

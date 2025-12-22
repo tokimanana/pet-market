@@ -61,7 +61,7 @@
       <p class="text-xl">Total: ${{ cartStore.totalPrice() | number : "1.2-2" }}</p>
     </div>
     <div class="space-x-4">
-      <button class="btn">Clear Cart</button>
+      <button (click)="cartStore.clearCart()" class="btn">Clear Cart</button>
       <a routerLink="/checkout" class="btn btn-primary">Proceed to Checkout</a>
     </div>
   </div>
