@@ -29,6 +29,11 @@ export const CartStore = signalStore(
         return acc + item.quantity;
       }, 0)
     ),
+    totalPrice: computed(() =>
+      store.items().reduce((acc, item) => {
+        return acc + item.quantity * item.price;
+      }, 0)
+    ),
   })),
   withMethods((store) => ({
     addToCart(product: Product, quantity = 1) {
@@ -60,5 +65,11 @@ export const CartStore = signalStore(
         });
       }
     },
+    updateQuantity(productId: string, quantity: number) {
+      const updatedItems = store
+        .items()
+        .map((item) => (item.id === productId ? { ...item, quantity } : item));
+      patchState(store, { items: updatedItems });
+    }
   }))
 );

@@ -39,6 +39,7 @@
           <td>
             <input
               [value]="item.quantity"
+              (change)="updateQuantity(item.id, $event)"
               type="number"
               class="input input-bordered w-20"
               min="1"
@@ -57,7 +58,7 @@
   <div class="flex justify-between items-center">
     <div>
       <!-- cart total -->
-      <!-- <p class="text-xl">Total: ${{ cart.totalAmount() | number : "1.2-2" }}</p> -->
+      <p class="text-xl">Total: ${{ cartStore.totalPrice() | number : "1.2-2" }}</p>
     </div>
     <div class="space-x-4">
       <button class="btn">Clear Cart</button>
