@@ -70,6 +70,12 @@ export const CartStore = signalStore(
         .items()
         .map((item) => (item.id === productId ? { ...item, quantity } : item));
       patchState(store, { items: updatedItems });
+    },
+    removeFromCart(productId: string) {
+      const updatedItems = store
+        .items()
+        .filter((item) => item.id !== productId);
+      patchState(store, { items: updatedItems });
     }
   }))
 );

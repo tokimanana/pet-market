@@ -47,7 +47,7 @@
           </td>
           <td>${{ item.price * item.quantity | number : "1.2-2" }}</td>
           <td>
-            <button class="btn btn-ghost btn-sm">Remove</button>
+            <button (click)="cartStore.removeFromCart(item.id)" class="btn btn-ghost btn-sm">Remove</button>
           </td>
         </tr>
         }
