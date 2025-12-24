@@ -22,5 +22,12 @@ export const appRoutes: Route[] = [
       const mod = await import('./cart/cart');
       return mod.Cart;
     },
+  },
+  {
+    path: 'checkout',
+    loadComponent: async () => {
+      const mod = await import('./checkout/checkout');
+      return mod.Checkout;
+    },
   }
 ];
