@@ -47,7 +47,12 @@
           </td>
           <td>${{ item.price * item.quantity | number : "1.2-2" }}</td>
           <td>
-            <button (click)="cartStore.removeFromCart(item.id)" class="btn btn-ghost btn-sm">Remove</button>
+            <button
+              (click)="cartStore.removeFromCart(item.id)"
+              class="btn btn-ghost btn-sm"
+            >
+              Remove
+            </button>
           </td>
         </tr>
         }
@@ -58,7 +63,9 @@
   <div class="flex justify-between items-center">
     <div>
       <!-- cart total -->
-      <p class="text-xl">Total: ${{ cartStore.totalPrice() | number : "1.2-2" }}</p>
+      <p class="text-xl">
+        Total: ${{ cartStore.totalAmount() | number : "1.2-2" }}
+      </p>
     </div>
     <div class="space-x-4">
       <button (click)="cartStore.clearCart()" class="btn">Clear Cart</button>

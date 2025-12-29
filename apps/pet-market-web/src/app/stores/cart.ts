@@ -10,7 +10,7 @@ import { Product } from '@prisma/client';
 
 type CartItem = Product & { quantity: number };
 
-const CART_LOCALSTORAGE_KEY = "pet_market_cart";
+const CART_LOCALSTORAGE_KEY = 'pet_market_cart';
 
 export interface CartState {
   items: CartItem[];
@@ -30,8 +30,8 @@ export const CartStore = signalStore(
         ...initialState,
         items: JSON.parse(
           localStorage.getItem(CART_LOCALSTORAGE_KEY) ?? '[]'
-        ) as CartItem[]
-      }
+        ) as CartItem[],
+      };
     }
     return initialState;
   }),
@@ -41,7 +41,7 @@ export const CartStore = signalStore(
         return acc + item.quantity;
       }, 0)
     ),
-    totalPrice: computed(() =>
+    totalAmount: computed(() =>
       store.items().reduce((acc, item) => {
         return acc + item.quantity * item.price;
       }, 0)
@@ -65,7 +65,10 @@ export const CartStore = signalStore(
           return cartItem;
         });
         patchState(store, { items: updatedItems });
-        localStorage.setItem(CART_LOCALSTORAGE_KEY, JSON.stringify(updatedItems));
+        localStorage.setItem(
+          CART_LOCALSTORAGE_KEY,
+          JSON.stringify(updatedItems)
+        );
       } else {
         const newItems = [...store.items(), { ...product, quantity }];
         patchState(store, { items: newItems });
