@@ -4,14 +4,12 @@ import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // Configuration CORS pour production
+
   app.enableCors({
     origin: [
-      'http://localhost:4200', // Dev local Angular
-      'http://localhost:3000', // Dev local (si besoin)
-      /\.onrender\.com$/, // Tous les sous-domaines Render (backend + frontend)
-      // Ajoutez votre URL frontend exacte après déploiement :
-      // 'https://pet-market-frontend.onrender.com',
+      'http://localhost:4200',
+      'http://localhost:3000',
+      /\.onrender\.com$/,
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -21,14 +19,13 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
-  // Validation globale des DTOs
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Retire les propriétés non définies dans les DTOs
-      forbidNonWhitelisted: true, // Rejette les requêtes avec des propriétés inconnues
-      transform: true, // Transforme automatiquement les payloads selon les DTOs
+      whitelist: false,
+      forbidNonWhitelisted: false,
+      transform: true,
       transformOptions: {
-        enableImplicitConversion: true, // Convertit automatiquement les types
+        enableImplicitConversion: true,
       },
     })
   );
