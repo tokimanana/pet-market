@@ -41,8 +41,17 @@ export class OrdersService {
     return `This action returns all orders`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  findOne(id: string) {
+    return this.prisma.order.findUnique({
+      where: { id },
+      include: {
+        items: {
+          include: {
+            product: true,
+          }
+        }
+      }
+    })
   }
 
   update(id: number, updateOrderInput: UpdateOrderInput) {
