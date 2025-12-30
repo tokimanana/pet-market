@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { OrderWithItems } from '../../../stores/order';
 
 @Component({
   selector: 'app-order-detail',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './order-detail.html',
   styleUrl: './order-detail.scss',
 })
-export class OrderDetail {}
+export class OrderDetail {
+  order = input.required<OrderWithItems | null>();
+}
