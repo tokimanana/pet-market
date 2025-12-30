@@ -9,6 +9,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:4200',
       'http://localhost:3000',
+      'https://pet-market-kjmu.onrender.com',
       /\.onrender\.com$/,
     ],
     credentials: true,

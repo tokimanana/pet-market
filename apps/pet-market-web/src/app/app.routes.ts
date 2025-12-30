@@ -29,5 +29,12 @@ export const appRoutes: Route[] = [
       const mod = await import('./checkout/checkout');
       return mod.Checkout;
     },
-  }
+  },
+  {
+    path: 'checkout/cancel',
+    loadComponent: async () => {
+      const mod = await import('./checkout/checkout-failure/checkout-failure');
+      return mod.CheckoutFailure;
+    }
+  },
 ];
