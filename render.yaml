@@ -8,11 +8,10 @@ services:
     region: frankfurt
     plan: free
     
-    # Commandes de build et démarrage
-    buildCommand: npm install && npx prisma generate && npx nx build pet-market-ko --configuration=production
-    startCommand: node dist/apps/pet-market-ko/main.js
+    # ✅ CORRECTION ICI - Utilisez npx nx directement
+    buildCommand: npm ci && npx prisma generate && npx nx build pet-market-ko --configuration=production
+    startCommand: npx prisma migrate deploy && node dist/apps/pet-market-ko/main.js
     
-    # Auto-deploy uniquement si le backend change
     autoDeploy: true
     buildFilter:
       paths:
@@ -31,19 +30,13 @@ services:
         - .github/**
         - .vscode/**
     
-    # Variables d'environnement
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
       - key: DATABASE_URL
-        sync: false  # À configurer manuellement dans le dashboard Render
-      # Ajoutez vos autres variables d'environnement backend ici
-      # - key: JWT_SECRET
-      #   sync: false
-      # - key: CORS_ORIGIN
-      #   sync: false
+        sync: false
 
   # ========================================
   # FRONTEND (Angular avec SSR) - pet-market-web
@@ -54,11 +47,10 @@ services:
     region: frankfurt
     plan: free
     
-    # Commandes de build et démarrage
-    buildCommand: npm install && npx nx build pet-market-web --configuration=production
+    # ✅ CORRECTION ICI aussi
+    buildCommand: npm ci && npx nx build pet-market-web --configuration=production
     startCommand: node dist/apps/pet-market-web/server/server.mjs
     
-    # Auto-deploy uniquement si le frontend change
     autoDeploy: true
     buildFilter:
       paths:
@@ -77,31 +69,13 @@ services:
         - .github/**
         - .vscode/**
     
-    # Variables d'environnement
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
       - key: API_URL
-        # Référence automatique au backend (recommandé)
         fromService:
           type: web
           name: pet-market-backend
           property: host
-        # Alternative : URL manuelle (décommentez si fromService ne marche pas)
-        # value: https://pet-market-backend.onrender.com
-      # Ajoutez vos autres variables d'environnement frontend ici
-      # - key: GOOGLE_ANALYTICS_ID
-      #   value: UA-XXXXXXXX-X
-
-# ========================================
-# DATABASE (PostgreSQL) - Optionnel
-# ========================================
-# Décommentez si vous voulez une base de données managée par Render
-# databases:
-#   - name: pet-market-db
-#     plan: free
-#     databaseName: pet_market
-#     user: pet_market_user
-#     region: frankfurt
