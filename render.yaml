@@ -8,8 +8,7 @@ services:
     region: frankfurt
     plan: free
     
-    # ✅ CORRECTION ICI - Utilisez npx nx directement
-    buildCommand: npm ci && npx prisma generate && npx nx build pet-market-ko --configuration=production
+    buildCommand: npm ci && npx prisma generate && ./node_modules/.bin/nx build pet-market-ko --configuration=production
     startCommand: npx prisma migrate deploy && node dist/apps/pet-market-ko/main.js
     
     autoDeploy: true
@@ -47,7 +46,6 @@ services:
     region: frankfurt
     plan: free
     
-    # ✅ CORRECTION ICI aussi
     buildCommand: npm ci && npx nx build pet-market-web --configuration=production
     startCommand: node dist/apps/pet-market-web/server/server.mjs
     
