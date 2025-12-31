@@ -1,0 +1,92 @@
+services:
+  # ========================================
+  # BACKEND API (NestJS)
+  # ========================================
+  - type: web
+    name: pet-market-backend
+    runtime: node
+    region: frankfurt  # Choisissez la région la plus proche
+    plan: free  # ou 'starter' pour $7/mois
+    
+    # Commandes de build et démarrage
+    buildCommand: npm install && npx nx build api --configuration=production
+    startCommand: node dist/apps/api/main.js
+    
+    # Auto-deploy uniquement si le backend change
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - apps/api/**
+        - libs/backend/**
+        - libs/shared/**  # Si vous avez des libs partagées
+        - package.json
+        - package-lock.json
+        - nx.json
+        - tsconfig.base.json
+      ignoredPaths:
+        - apps/pet-market-web/**
+        - libs/frontend/**
+        - "**/*.md"
+        - .github/**
+        - .vscode/**
+    
+    # Variables d'environnement
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false  # À configurer manuellement dans le dashboard Render
+      # Ajoutez vos autres variables d'environnement backend ici
+      # - key: JWT_SECRET
+      #   sync: false
+      # - key: AWS_ACCESS_KEY
+      #   sync: false
+
+  # ========================================
+  # FRONTEND (Angular avec SSR)
+  # ========================================
+  - type: web
+    name: pet-market-frontend
+    runtime: node
+    region: frankfurt  # Même région que le backend pour réduire la latence
+    plan: free  # ou 'starter' pour $7/mois
+    
+    # Commandes de build et démarrage
+    buildCommand: npm install && npx nx build pet-market-web --configuration=production
+    startCommand: node dist/apps/pet-market-web/server/server.mjs
+    
+    # Auto-deploy uniquement si le frontend change
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - apps/pet-market-web/**
+        - libs/frontend/**
+        - libs/shared/**  # Si vous avez des libs partagées
+        - package.json
+        - package-lock.json
+        - nx.json
+        - tsconfig.base.json
+      ignoredPaths:
+        - apps/api/**
+        - libs/backend/**
+        - "**/*.md"
+        - .github/**
+        - .vscode/**
+    
+    # Variables d'environnement
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: API_URL
+        # Option 1: Référence automatique au backend (recommandé)
+        fromService:
+          type: web
+          name: pet-market-backend
+          property: host
+        # Option 2: URL manuelle (décommentez si besoin)
+        # value: https://pet-market-backend.onrender.com
+      # Ajoutez vos autres variables d'environnement frontend ici

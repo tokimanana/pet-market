@@ -34,10 +34,18 @@ yarn-error.log
 testem.log
 /typings
 
-# environment variables
+# environment variables - Backend (NestJS)
 .env
 .env.local
 .env.*.local
+
+# environment variables - Frontend (Angular)
+# Ignore dev environment files (contain secrets)
+**/environments/environment.ts
+**/environments/environment.local.ts
+# DO NOT ignore production and example files
+!**/environments/environment.prod.ts
+!**/environments/environment.example.ts
 
 # System Files
 .DS_Store
