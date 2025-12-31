@@ -1,24 +1,25 @@
 services:
   # ========================================
-  # BACKEND API (NestJS)
+  # BACKEND API (NestJS) - pet-market-ko
   # ========================================
   - type: web
     name: pet-market-backend
     runtime: node
-    region: frankfurt  # Choisissez la région la plus proche
-    plan: free  # ou 'starter' pour $7/mois
+    region: frankfurt
+    plan: free
     
     # Commandes de build et démarrage
-    buildCommand: npm install && npx nx build api --configuration=production
-    startCommand: node dist/apps/api/main.js
+    buildCommand: npm install && npx prisma generate && npx nx build pet-market-ko --configuration=production
+    startCommand: node dist/apps/pet-market-ko/main.js
     
     # Auto-deploy uniquement si le backend change
     autoDeploy: true
     buildFilter:
       paths:
-        - apps/api/**
+        - apps/pet-market-ko/**
         - libs/backend/**
-        - libs/shared/**  # Si vous avez des libs partagées
+        - libs/shared/**
+        - prisma/**
         - package.json
         - package-lock.json
         - nx.json
@@ -41,17 +42,17 @@ services:
       # Ajoutez vos autres variables d'environnement backend ici
       # - key: JWT_SECRET
       #   sync: false
-      # - key: AWS_ACCESS_KEY
+      # - key: CORS_ORIGIN
       #   sync: false
 
   # ========================================
-  # FRONTEND (Angular avec SSR)
+  # FRONTEND (Angular avec SSR) - pet-market-web
   # ========================================
   - type: web
     name: pet-market-frontend
     runtime: node
-    region: frankfurt  # Même région que le backend pour réduire la latence
-    plan: free  # ou 'starter' pour $7/mois
+    region: frankfurt
+    plan: free
     
     # Commandes de build et démarrage
     buildCommand: npm install && npx nx build pet-market-web --configuration=production
@@ -63,14 +64,15 @@ services:
       paths:
         - apps/pet-market-web/**
         - libs/frontend/**
-        - libs/shared/**  # Si vous avez des libs partagées
+        - libs/shared/**
         - package.json
         - package-lock.json
         - nx.json
         - tsconfig.base.json
       ignoredPaths:
-        - apps/api/**
+        - apps/pet-market-ko/**
         - libs/backend/**
+        - prisma/**
         - "**/*.md"
         - .github/**
         - .vscode/**
@@ -82,11 +84,24 @@ services:
       - key: PORT
         value: 10000
       - key: API_URL
-        # Option 1: Référence automatique au backend (recommandé)
+        # Référence automatique au backend (recommandé)
         fromService:
           type: web
           name: pet-market-backend
           property: host
-        # Option 2: URL manuelle (décommentez si besoin)
+        # Alternative : URL manuelle (décommentez si fromService ne marche pas)
         # value: https://pet-market-backend.onrender.com
       # Ajoutez vos autres variables d'environnement frontend ici
+      # - key: GOOGLE_ANALYTICS_ID
+      #   value: UA-XXXXXXXX-X
+
+# ========================================
+# DATABASE (PostgreSQL) - Optionnel
+# ========================================
+# Décommentez si vous voulez une base de données managée par Render
+# databases:
+#   - name: pet-market-db
+#     plan: free
+#     databaseName: pet_market
+#     user: pet_market_user
+#     region: frankfurt
