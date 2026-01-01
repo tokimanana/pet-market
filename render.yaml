@@ -7,10 +7,11 @@ services:
     runtime: node
     region: frankfurt
     plan: free
-    
-    buildCommand: npm ci && npx prisma generate && ./node_modules/.bin/nx build pet-market-ko --configuration=production
+
+    buildCommand: npm ci && npx prisma generate && npx nx build pet-market-ko --configuration=production
     startCommand: npx prisma migrate deploy && node dist/apps/pet-market-ko/main.js
-    
+    rootDir: ./
+
     autoDeploy: true
     buildFilter:
       paths:
@@ -25,10 +26,10 @@ services:
       ignoredPaths:
         - apps/pet-market-web/**
         - libs/frontend/**
-        - "**/*.md"
+        - '**/*.md'
         - .github/**
         - .vscode/**
-    
+
     envVars:
       - key: NODE_ENV
         value: production
@@ -45,10 +46,10 @@ services:
     runtime: node
     region: frankfurt
     plan: free
-    
+
     buildCommand: npm ci && npx nx build pet-market-web --configuration=production
     startCommand: node dist/apps/pet-market-web/server/server.mjs
-    
+
     autoDeploy: true
     buildFilter:
       paths:
@@ -63,10 +64,10 @@ services:
         - apps/pet-market-ko/**
         - libs/backend/**
         - prisma/**
-        - "**/*.md"
+        - '**/*.md'
         - .github/**
         - .vscode/**
-    
+
     envVars:
       - key: NODE_ENV
         value: production
