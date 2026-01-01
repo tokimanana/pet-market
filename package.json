@@ -9,7 +9,7 @@
     "start:prod": "node dist/apps/pet-market-ko/main.js",
     "prisma:generate": "prisma generate",
     "prisma:deploy": "prisma migrate deploy",
-    "render:build": "npm ci --legacy-peer-deps && npm audit fix --legacy-peer-deps --force && npx prisma generate && npx nx build pet-market-ko --configuration=production"
+    "render:build": "npm install --legacy-peer-deps && npx prisma generate && npx nx build pet-market-ko --configuration=production"
   },
   "private": true,
   "dependencies": {

@@ -8,7 +8,7 @@ services:
     region: frankfurt
     plan: free
 
-    buildCommand: npm ci --legacy-peer-deps --ignore-scripts && npx prisma generate && npx nx build pet-market-ko --configuration=production
+    buildCommand: npm install --legacy-peer-deps && npx prisma generate && npx nx build pet-market-ko --configuration=production
     startCommand: npx prisma migrate deploy && node dist/apps/pet-market-ko/main.js
 
     autoDeploy: true
@@ -21,6 +21,7 @@ services:
         - package.json
         - package-lock.json
         - nx.json
+        - tsconfig.json
         - tsconfig.base.json
       ignoredPaths:
         - apps/pet-market-web/**
