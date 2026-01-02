@@ -4,12 +4,11 @@
   "license": "MIT",
   "scripts": {
     "seed": "tsx prisma/seed.ts",
-    "build": "nx build pet-market-ko --configuration=production",
     "start": "node dist/apps/pet-market-ko/main.js",
-    "start:prod": "node dist/apps/pet-market-ko/main.js",
     "prisma:generate": "prisma generate",
     "prisma:deploy": "prisma migrate deploy",
-    "render:build": "npm install --legacy-peer-deps && npx prisma generate && npx nx build pet-market-ko --configuration=production"
+    "build:backend": "nx build pet-market-ko --configuration=production",
+    "build:frontend": "nx build pet-market-web --configuration=production"
   },
   "private": true,
   "dependencies": {
