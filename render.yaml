@@ -1,0 +1,80 @@
+services:
+  # ========================================
+  # BACKEND API (NestJS) - pet-market-ko
+  # ========================================
+  - type: web
+    name: pet-market-backend
+    runtime: node
+    region: frankfurt
+    plan: free
+
+    buildCommand: npm install --legacy-peer-deps && npx prisma generate && npx nx build pet-market-ko --configuration=production
+    startCommand: npx prisma migrate deploy && node dist/apps/pet-market-ko/main.js
+
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - apps/pet-market-ko/**
+        - libs/backend/**
+        - libs/shared/**
+        - prisma/**
+        - package.json
+        - package-lock.json
+        - nx.json
+        - tsconfig.json
+        - tsconfig.base.json
+      ignoredPaths:
+        - apps/pet-market-web/**
+        - libs/frontend/**
+        - '**/*.md'
+        - .github/**
+        - .vscode/**
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+
+  # ========================================
+  # FRONTEND (Angular avec SSR) - pet-market-web
+  # ========================================
+  - type: web
+    name: pet-market-frontend
+    runtime: node
+    region: frankfurt
+    plan: free
+
+    buildCommand: npm install --legacy-peer-deps && npx nx build pet-market-web --configuration=production
+    startCommand: node dist/apps/pet-market-web/server/server.mjs
+
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - apps/pet-market-web/**
+        - libs/frontend/**
+        - libs/shared/**
+        - package.json
+        - package-lock.json
+        - nx.json
+        - tsconfig.base.json
+      ignoredPaths:
+        - apps/pet-market-ko/**
+        - libs/backend/**
+        - prisma/**
+        - '**/*.md'
+        - .github/**
+        - .vscode/**
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: API_URL
+        fromService:
+          type: web
+          name: pet-market-backend
+          property: host
