@@ -41,7 +41,7 @@ testem.log
 
 # environment variables - Frontend (Angular)
 # Ignore dev environment files (contain secrets)
-**/environments/environment.ts
+# **/environments/environment.ts
 **/environments/environment.local.ts
 # DO NOT ignore production and example files
 !**/environments/environment.prod.ts
