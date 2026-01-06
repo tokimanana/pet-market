@@ -1,5 +1,5 @@
 services:
-  # Backend NestJS - API GraphQL
+  # Backend NestJS
   - type: web
     name: pet-market-ko
     env: node
@@ -14,19 +14,28 @@ services:
         value: production
       - key: PORT
         value: 10000
-      - key: GRAPHQL_ENDPOINT
-        value: /graphql
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://pet-market-web-a61t.onrender.com
     buildFilter:
       paths:
+        # Backend spécifique
         - apps/pet-market-ko/**
         - prisma/**
-        - libs/**
+        # Dépendances partagées
         - package.json
         - package-lock.json
         - nx.json
         - tsconfig.base.json
+      ignoredPaths:
+        # Ignorer les fichiers non-critiques
+        - "**/*.md"
+        - "**/*.test.ts"
+        - "**/*.spec.ts"
+        - "**/README.md"
 
-  # Frontend Angular - SSR
+  # Frontend Angular
   - type: web
     name: pet-market-web
     env: node
@@ -40,12 +49,18 @@ services:
       - key: PORT
         value: 10000
       - key: API_URL
-        sync: false
+        value: https://pet-market-ko.onrender.com/graphql
     buildFilter:
       paths:
+        # Frontend spécifique
         - apps/pet-market-web/**
-        - libs/**
+        # Dépendances partagées
         - package.json
         - package-lock.json
         - nx.json
         - tsconfig.base.json
+      ignoredPaths:
+        - "**/*.md"
+        - "**/*.test.ts"
+        - "**/*.spec.ts"
+        - "**/README.md"
