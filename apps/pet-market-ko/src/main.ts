@@ -8,9 +8,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:4200',
-      'http://localhost:3000',
-      'https://pet-market-kjmu.onrender.com',
-      /\.onrender\.com$/,
+      'https://pet-market-web-a61t.onrender.com',
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -32,10 +30,13 @@ async function bootstrap() {
   );
 
   const port = process.env.PORT || 3000;
-  await app.listen(port, '0.0.0.0'); // Ecouter sur 0.0.0.0 pour Render
+  await app.listen(port, '0.0.0.0');
   
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+  );
+  Logger.log(
+    `🔗 GraphQL Playground: http://localhost:${port}/graphql`
   );
 }
 

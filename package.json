@@ -4,11 +4,14 @@
   "license": "MIT",
   "scripts": {
     "seed": "tsx prisma/seed.ts",
-    "start": "node dist/apps/pet-market-ko/main.js",
+    "start": "node apps/pet-market-ko/dist/main.js",
+    "start:prod": "node apps/pet-market-ko/dist/main.js",
     "prisma:generate": "prisma generate",
     "prisma:deploy": "prisma migrate deploy",
     "build:backend": "nx build pet-market-ko --configuration=production",
-    "build:frontend": "nx build pet-market-web --configuration=production"
+    "build:frontend": "nx build pet-market-web --configuration=production",
+    "serve:backend": "nx build pet-market-ko && node apps/pet-market-ko/dist/main.js",
+    "serve:frontend": "nx serve pet-market-web"
   },
   "private": true,
   "dependencies": {
@@ -52,6 +55,7 @@
     "@angular/compiler-cli": "~20.3.0",
     "@angular/language-service": "~20.3.0",
     "@eslint/js": "^9.8.0",
+    "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.0",
     "@nx/angular": "^22.1.3",
