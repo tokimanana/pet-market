@@ -16,7 +16,9 @@ async function bootstrap() {
   });
 
   const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
+  app.setGlobalPrefix(globalPrefix, {
+    exclude: ['graphql'],
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
