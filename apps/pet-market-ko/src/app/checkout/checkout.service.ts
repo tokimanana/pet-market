@@ -3,9 +3,9 @@ import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { OrdersService } from '../orders/orders.service';
 import { Stripe } from 'stripe';
 
-const stripeSecret = process.env.STRIPE_SECRET;
+const stripeSecret = process.env.STRIPE_SECRET_KEY;
 
-if(!stripeSecret) {
+if (!stripeSecret) {
   throw new Error('Missing stripe secret');
 }
 
@@ -22,7 +22,7 @@ export class CheckoutService {
     });
 
     const session = await stripe.checkout.sessions.create({
-      line_items: createCheckoutDto.cartItems.map(item => ({
+      line_items: createCheckoutDto.cartItems.map((item) => ({
         price_data: {
           currency: 'usd',
           product_data: {
