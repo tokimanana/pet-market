@@ -1,19 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { OrdersService } from '../orders/orders.service';
 import { Stripe } from 'stripe';
 
-const stripeSecret = process.env.STRIPE_SECRET_KEY;
-
-if (!stripeSecret) {
-  throw new Error('Missing stripe secret');
-}
-
-const stripe = new Stripe(stripeSecret);
-
 @Injectable()
 export class CheckoutService {
-  constructor(private readonly orderService: OrdersService) {}
+  private stripe: Stripe;
+
+  constructor(
+    private readonly orderService: OrdersService,
+    private readonly configService: ConfigService
+  ) {
+    const stripeSecret = this.configService.get<string>('STRIPE_SECRET_KEY');
+
+    if (!stripeSecret) {
+      throw new Error('Missing STRIPE_SECRET_KEY environment variable');
+    }
+
+    this.stripe = new Stripe(stripeSecret, {
+      apiVersion: '2025-12-15.clover',
+    });
+  }
 
   async create(createCheckoutDto: CreateCheckoutDto) {
     const order = await this.orderService.create({
@@ -21,7 +29,12 @@ export class CheckoutService {
       totalAmount: createCheckoutDto.totalAmount,
     });
 
-    const session = await stripe.checkout.sessions.create({
+    const frontendUrl = this.configService.get<string>(
+      'FRONTEND_URL',
+      'http://localhost:4200'
+    );
+
+    const session = await this.stripe.checkout.sessions.create({
       line_items: createCheckoutDto.cartItems.map((item) => ({
         price_data: {
           currency: 'usd',
@@ -33,8 +46,8 @@ export class CheckoutService {
         quantity: item.quantity,
       })),
       mode: 'payment',
-      success_url: `${process.env.FRONTEND_URL}/checkout/success?orderId=${order.id}`,
-      cancel_url: `${process.env.FRONTEND_URL}/checkout/cancel`,
+      success_url: `${frontendUrl}/checkout/success?orderId=${order.id}`,
+      cancel_url: `${frontendUrl}/checkout/cancel`,
       metadata: {
         orderId: order.id,
       },
