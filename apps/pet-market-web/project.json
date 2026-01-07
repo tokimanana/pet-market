@@ -8,7 +8,6 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/pet-market-web",
         "browser": "apps/pet-market-web/src/main.ts",
@@ -26,14 +25,15 @@
         "ssr": {
           "entry": "apps/pet-market-web/src/server.ts"
         },
-        "outputMode": "server"
+        "outputMode": "server",
+        "prerender": false
       },
       "configurations": {
         "production": {
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
+              "maximumWarning": "600kb",
               "maximumError": "1mb"
             },
             {
