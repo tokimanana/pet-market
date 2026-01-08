@@ -4,7 +4,7 @@ const webpack = require('webpack');
 
 module.exports = {
   output: {
-    path: join(__dirname, 'dist'),
+    path: join(__dirname, '../../dist/apps/pet-market-ko'),
     clean: true,
     ...(process.env.NODE_ENV !== 'production' && {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',

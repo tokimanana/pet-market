@@ -1,0 +1,114 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Product {
+  id: String!
+  name: String!
+  description: String!
+  price: Float!
+  image: String!
+  stripePriceId: String!
+  isFeatured: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type OrderItem {
+  id: String!
+  quantity: Int!
+  price: Float!
+  product: Product!
+  productId: String!
+  orderId: String!
+}
+
+type Order {
+  id: ID!
+  items: [OrderItem!]!
+  totalAmount: Float!
+  status: String!
+  paymentId: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  products: [Product!]!
+  product(id: String!): Product!
+  searchProducts(term: String!): [Product!]!
+  orders: [Order!]!
+  order(id: String!): Order!
+}
+
+type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: String!): Product!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  removeOrder(id: Int!): Order!
+}
+
+input CreateProductInput {
+  """Product name"""
+  name: String!
+
+  """Product description"""
+  description: String
+
+  """Product price"""
+  price: Float!
+
+  """Product image URL"""
+  image: String
+
+  """Stripe price ID"""
+  stripePriceId: String
+
+  """Is product featured?"""
+  isFeatured: Boolean = false
+}
+
+input UpdateProductInput {
+  """Product name"""
+  name: String
+
+  """Product description"""
+  description: String
+
+  """Product price"""
+  price: Float
+
+  """Product image URL"""
+  image: String
+
+  """Stripe price ID"""
+  stripePriceId: String
+
+  """Is product featured?"""
+  isFeatured: Boolean = false
+  id: String!
+}
+
+input CreateOrderInput {
+  items: [OrderItemInput!]!
+  totalAmount: Float!
+}
+
+input OrderItemInput {
+  productId: String!
+  quantity: Int!
+  price: Float!
+}
+
+input UpdateOrderInput {
+  items: [OrderItemInput!]
+  totalAmount: Float
+  id: Int!
+}

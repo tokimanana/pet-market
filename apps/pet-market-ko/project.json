@@ -1,0 +1,27 @@
+{
+  "name": "@pet-market/pet-market-ko",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack-cli build --node-env=development",
+        "cwd": "apps/pet-market-ko"
+      },
+      "configurations": {
+        "production": {
+          "command": "webpack-cli build --node-env=production"
+        }
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "@pet-market/pet-market-ko:build",
+        "runBuildTargetDependencies": false
+      }
+    }
+  }
+}

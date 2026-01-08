@@ -16,7 +16,7 @@ export class Stripe {
     const totalAmount = this.cartStore.totalAmount();
 
     return this.http.post<{ url: string }>(
-      `${environment.apiUrl}/api/checkout`,
+      `${environment.baseUrl}/api/checkout`,
       {
         cartItems: items.map((item) => ({
           productId: item.id,

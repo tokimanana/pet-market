@@ -38,7 +38,8 @@
         "buildDepsTargetName": "build-deps",
         "watchDepsTargetName": "watch-deps",
         "serveStaticTargetName": "serve-static"
-      }
+      },
+      "exclude": ["apps/pet-market-ko/**"]
     },
     {
       "plugin": "@nx/eslint/plugin",

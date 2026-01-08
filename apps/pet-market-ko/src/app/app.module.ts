@@ -18,7 +18,7 @@ import { OrdersModule } from './orders/orders.module';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'apps/pet-market-ko/dist/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'apps/pet-market-ko/src/schema.gql'),
       playground: false,
       introspection: process.env.NODE_ENV !== 'production',
       plugins: [
