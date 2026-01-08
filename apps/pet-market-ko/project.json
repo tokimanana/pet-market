@@ -20,7 +20,8 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "@pet-market/pet-market-ko:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": false,
+        "watch": false
       }
     }
   }
