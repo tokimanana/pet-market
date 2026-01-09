@@ -1,12 +1,11 @@
 services:
-  # Backend NestJS
   - type: web
     name: pet-market-ko
     env: node
     region: frankfurt
     plan: free
     buildCommand: NODE_ENV=development npm install && npx prisma generate && npx nx build pet-market-ko --configuration=production
-    startCommand: node apps/pet-market-ko/dist/main.js
+    startCommand: node dist/apps/pet-market-ko/main.js
     envVars:
       - key: DATABASE_URL
         sync: false
@@ -20,22 +19,18 @@ services:
         value: https://pet-market-web-a61t.onrender.com
     buildFilter:
       paths:
-        # Backend spécifique
         - apps/pet-market-ko/**
         - prisma/**
-        # Dépendances partagées
         - package.json
         - package-lock.json
         - nx.json
         - tsconfig.base.json
       ignoredPaths:
-        # Ignorer les fichiers non-critiques
         - "**/*.md"
         - "**/*.test.ts"
         - "**/*.spec.ts"
         - "**/README.md"
 
-  # Frontend Angular
   - type: web
     name: pet-market-web
     env: node
@@ -52,9 +47,7 @@ services:
         value: https://pet-market-ko.onrender.com/graphql
     buildFilter:
       paths:
-        # Frontend spécifique
         - apps/pet-market-web/**
-        # Dépendances partagées
         - package.json
         - package-lock.json
         - nx.json
