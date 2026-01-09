@@ -38,6 +38,12 @@ type Order {
   updatedAt: DateTime!
 }
 
+type DeleteOrderResp {
+  success: Boolean!
+  orderId: ID!
+  error: String
+}
+
 type Query {
   products: [Product!]!
   product(id: String!): Product!
@@ -52,7 +58,7 @@ type Mutation {
   removeProduct(id: String!): Product!
   createOrder(createOrderInput: CreateOrderInput!): Order!
   updateOrder(updateOrderInput: UpdateOrderInput!): Order!
-  removeOrder(id: Int!): Order!
+  removeUnpaidOrder(id: String!): DeleteOrderResp!
 }
 
 input CreateProductInput {
