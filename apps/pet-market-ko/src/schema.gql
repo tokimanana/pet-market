@@ -108,7 +108,13 @@ input OrderItemInput {
 }
 
 input UpdateOrderInput {
-  items: [OrderItemInput!]
-  totalAmount: Float
-  id: Int!
+  id: String!
+  status: OrderStatus!
+}
+
+enum OrderStatus {
+  PENDING
+  STARTED_DELIVERY
+  DELIVERED
+  PAYMENT_REQUIRED
 }

@@ -9,7 +9,7 @@ export class OrdersService {
 
   async create(createOrderInput: CreateOrderInput) {
     const { totalAmount, items } = createOrderInput;
-    
+
     return await this.prisma.order.create({
       data: {
         totalAmount,
@@ -19,26 +19,33 @@ export class OrdersService {
             quantity: item.quantity,
             price: item.price,
             product: {
-              connect: { 
-                id: item.productId
-              }
-            }
-          }))
-        }
+              connect: {
+                id: item.productId,
+              },
+            },
+          })),
+        },
       },
       include: {
         items: {
           include: {
             product: true,
-          }
-        }
-
-      }
-    })
+          },
+        },
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all orders`;
+    return this.prisma.order.findMany({
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
   }
 
   findOne(id: string) {
@@ -48,14 +55,28 @@ export class OrdersService {
         items: {
           include: {
             product: true,
-          }
-        }
-      }
-    })
+          },
+        },
+      },
+    });
   }
 
-  update(id: number, updateOrderInput: UpdateOrderInput) {
-    return `This action updates a #${id} order`;
+  update(id: string, updateOrderInput: UpdateOrderInput) {
+    return this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updateOrderInput,
+      },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
   }
 
   remove(id: number) {
