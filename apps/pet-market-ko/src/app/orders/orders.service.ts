@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { PrismaService } from '../prisma/prisma.service';
@@ -15,7 +15,7 @@ export class OrdersService {
     return await this.prisma.order.create({
       data: {
         totalAmount,
-        status: 'PENDING',
+        status: OrderStatus.PENDING,
         items: {
           create: items.map((item) => ({
             quantity: item.quantity,
@@ -50,27 +50,23 @@ export class OrdersService {
     });
   }
 
-  findOne(id: string) {
-    return this.prisma.order.findUnique({
-      where: { id },
-      include: {
-        items: {
+  async findOne(id: string) {
+    const order = await this.prisma.order.findUnique({ where: { id }, include: {
+      items: {
           include: {
             product: true,
           },
         },
-      },
-    });
+    } });
+    if (!order) throw new NotFoundException(`Order ${id} not found`);
+    return order;
   }
 
   update(id: string, updateOrderInput: UpdateOrderInput) {
+    const { id: _, ...data } = updateOrderInput;
     return this.prisma.order.update({
-      where: {
-        id,
-      },
-      data: {
-        ...updateOrderInput,
-      },
+      where: { id },
+      data,
       include: {
         items: {
           include: {
