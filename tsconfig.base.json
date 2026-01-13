@@ -17,5 +17,8 @@
     "strict": true,
     "target": "es2022",
     "customConditions": ["@pet-market/source"],
+    "paths": {
+      "@pet-market/types": ["shared/types/src/index.ts"]
+    }
   }
 }
