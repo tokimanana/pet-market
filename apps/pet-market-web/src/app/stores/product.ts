@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { Apollo, gql } from 'apollo-angular';
 import { catchError, EMPTY, map } from 'rxjs';
-import { Product } from '@prisma/client';
+import { ProductType } from '@pet-market/types';
 
 const GET_PRODUCTS = gql`
   query GetProducts {
@@ -32,8 +32,8 @@ const SEARCH_PRODUCTS = gql`
 `;
 
 export interface ProductState {
-  products: Product[];
-  featuredProducts: Product[];
+  products: ProductType[];
+  featuredProducts: ProductType[];
   loading: boolean;
   error: string | null;
 }
@@ -55,13 +55,13 @@ export const ProductStore = signalStore(
       patchState(store, { loading: true, error: null });
       
       apollo
-        .watchQuery<{ products: Product[] }>({
+        .watchQuery<{ products: ProductType[] }>({
           query: GET_PRODUCTS,
         })
         .valueChanges.pipe(
           map(({ data }) => {
-            const products = (data?.products || []) as Product[];
-            return products.filter((p): p is Product => p !== undefined && p !== null);
+            const products = (data?.products || []) as ProductType[];
+            return products.filter((p): p is ProductType => p !== undefined && p !== null);
           })
         )
         .subscribe({
@@ -84,7 +84,7 @@ export const ProductStore = signalStore(
       patchState(store, { loading: true, error: null });
       
       apollo
-        .query<{ searchProducts: Product[] }>({
+        .query<{ searchProducts: ProductType[] }>({
           query: SEARCH_PRODUCTS,
           variables: { searchTerm: term }
         })
@@ -107,14 +107,14 @@ export const ProductStore = signalStore(
       patchState(store, { loading: true, error: null });
       
       apollo
-        .watchQuery<{ products: Product[] }>({
+        .watchQuery<{ products: ProductType[] }>({
           query: GET_PRODUCTS,
         })
         .valueChanges.pipe(
           map(({ data }) => {
-            const products = (data?.products || []) as Product[];
+            const products = (data?.products || []) as ProductType[];
             return products
-              .filter((p): p is Product => p !== undefined && p !== null)
+              .filter((p): p is ProductType => p !== undefined && p !== null)
               .filter(p => p.isFeatured === true);
           })
         )
