@@ -1,8 +1,4 @@
-export function types(): string {
-  return 'types';
-}
-
-export type ProductType = {
+export type Product = {
   id: string;
   name: string;
   description: string;
@@ -11,3 +7,5 @@ export type ProductType = {
   stripePriceId: string;
   isFeatured: boolean;
 };
+
+export type CartItem = Product & { quantity: number };

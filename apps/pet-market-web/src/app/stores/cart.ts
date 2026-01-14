@@ -6,9 +6,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { Product } from '@prisma/client';
-
-type CartItem = Product & { quantity: number };
+import { Product, CartItem } from '@pet-market/types';
 
 const CART_LOCALSTORAGE_KEY = 'pet_market_cart';
 
