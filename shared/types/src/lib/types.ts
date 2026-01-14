@@ -6,6 +6,8 @@ export type Product = {
   image: string;
   stripePriceId: string;
   isFeatured: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type CartItem = Product & { quantity: number };

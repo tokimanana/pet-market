@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrderWithItems } from '../../../stores/order';
+import { OrderWithItems } from '@pet-market/types';
 
 @Component({
   selector: 'app-order-detail',

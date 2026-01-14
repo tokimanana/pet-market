@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { OrderWithItems } from '@pet-market/types';
+import { OrderWithItems, OrderStatus } from '@pet-market/types';
 import { Apollo, gql } from 'apollo-angular';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 
 const GET_ORDER = gql`
   query GetOrder($id: String!) {
@@ -25,13 +25,26 @@ const GET_ORDER = gql`
   }
 `;
 
-// export type OrderItemWithProduct = OrderItem & {
-//   product: Product;
-// };
-
-// export type OrderWithItems = Order & {
-//   items: OrderItemWithProduct[];
-// };
+const UPDATE_ORDER = gql`
+  mutation UpdateOrder($id: String!, $status: OrderStatus!) {
+    updateOrder(updateOrderInput: { id: $id, status: $status }) {
+      id
+      status
+      totalAmount
+      items {
+        id
+        quantity
+        price
+        product {
+          id
+          name
+          image
+        }
+      }
+      updatedAt
+    }
+  }
+`;
 
 type OrderState = {
   orders: OrderWithItems[];
@@ -56,9 +69,7 @@ export const OrderStore = signalStore(
       return apollo
         .query<{ order: OrderWithItems }>({
           query: GET_ORDER,
-          variables: {
-            id,
-          },
+          variables: { id },
         })
         .pipe(
           tap({
@@ -70,13 +81,30 @@ export const OrderStore = signalStore(
               }
             },
             error: (error) => patchState(store, { error: error.message }),
-          })
+          }),
+          map(({ data }) => data?.order)
+        );
+    },
+    updateOrder(params: { id: string; status: OrderStatus }) {
+      return apollo
+        .mutate<{ updateOrder: OrderWithItems }>({
+          mutation: UPDATE_ORDER,
+          variables: { id: params.id, status: params.status },
+        })
+        .pipe(
+          tap({
+            next: ({ data }) => {
+              if (data?.updateOrder) {
+                patchState(store, { orderDetail: data.updateOrder });
+              }
+            },
+            error: (error) => patchState(store, { error: error.message }),
+          }),
+          map(({ data }) => data?.updateOrder)
         );
     },
     setError(error: string) {
-      patchState(store, {
-        error,
-      });
+      patchState(store, { error });
     },
   }))
 );

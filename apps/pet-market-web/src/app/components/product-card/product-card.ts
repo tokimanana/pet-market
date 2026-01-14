@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Product } from '@prisma/client'
+import { Product } from '@pet-market/types';
 
 @Component({
   selector: 'app-product-card',
