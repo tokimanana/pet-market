@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { Order, OrderItem, Product } from '@prisma/client';
+import { OrderWithItems } from '@pet-market/types';
 import { Apollo, gql } from 'apollo-angular';
 import { tap } from 'rxjs';
 
@@ -25,13 +25,13 @@ const GET_ORDER = gql`
   }
 `;
 
-export type OrderItemWithProduct = OrderItem & {
-  product: Product;
-};
+// export type OrderItemWithProduct = OrderItem & {
+//   product: Product;
+// };
 
-export type OrderWithItems = Order & {
-  items: OrderItemWithProduct[];
-};
+// export type OrderWithItems = Order & {
+//   items: OrderItemWithProduct[];
+// };
 
 type OrderState = {
   orders: OrderWithItems[];
