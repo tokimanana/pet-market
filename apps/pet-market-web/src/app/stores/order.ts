@@ -9,6 +9,7 @@ const GET_ORDER = gql`
     order(id: $id) {
       id
       items {
+        id
         quantity
         price
         productId

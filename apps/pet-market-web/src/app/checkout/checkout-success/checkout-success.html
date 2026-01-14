@@ -32,8 +32,10 @@
       </div>
       <h2 class="card-title text-primary mb-4">Order Summary</h2>
       <div class="space-y-4">
-        @defer (on immediate; hydrate never) {
-        <app-order-detail [order]="orderStore.orderDetail()" />
+        @if (orderStore.orderDetail(); as order) {
+        <app-order-detail [order]="order" />
+        } @else {
+        <span class="loading loading-spinner loading-md"></span>
         }
       </div>
     </div>
