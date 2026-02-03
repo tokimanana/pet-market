@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { Apollo, gql } from 'apollo-angular';
-import { catchError, delay, EMPTY, map } from 'rxjs';
+import { catchError, EMPTY, map } from 'rxjs';
 import { Product } from '@prisma/client';
 
 const GET_PRODUCTS = gql`
@@ -59,7 +59,6 @@ export const ProductStore = signalStore(
           query: GET_PRODUCTS,
         })
         .valueChanges.pipe(
-          delay(2000),
           map(({ data }) => {
             const products = (data?.products || []) as Product[];
             return products.filter((p): p is Product => p !== undefined && p !== null);
